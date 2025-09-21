@@ -1,8 +1,8 @@
-import { action } from 'mobx';
 import invariant from 'invariant';
+import { action } from 'mobx';
+import { composeValue } from './common-utils';
 import { Form } from './index';
 import { FormModel } from './model';
-import { composeValue } from './common-utils';
 import { FormArrayLayoutInput } from './type';
 
 function invariantArrayShapeIsAutoOrArray(arrayModel: FormModel<unknown[]>) {

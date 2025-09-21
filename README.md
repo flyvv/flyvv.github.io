@@ -1,7 +1,43 @@
-## Welcome everyone!
+# react-xform
 
-### 一入前端深似海
+[![NPM version](https://img.shields.io/npm/v/react-xform.svg?style=flat)](https://npmjs.org/package/react-xform)
+[![NPM downloads](http://img.shields.io/npm/dm/react-xform.svg?style=flat)](https://npmjs.org/package/react-xform)
 
-### 那是因为我爱前端
+A react library developed with dumi
 
-### 因为js很好玩
+## Usage
+
+TODO
+
+## Options
+
+TODO
+
+## Development
+
+```bash
+# install dependencies
+$ pnpm install
+
+# develop library by docs demo
+$ pnpm start
+
+# build library source code
+$ pnpm run build
+
+# build library source code in watch mode
+$ pnpm run build:watch
+
+# build docs
+$ pnpm run docs:build
+
+# Locally preview the production build.
+$ pnpm run docs:preview
+
+# check your project for potential problems
+$ pnpm run doctor
+```
+
+## LICENSE
+
+MIT

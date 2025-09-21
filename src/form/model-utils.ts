@@ -1,8 +1,12 @@
 import { action, observable, runInAction, toJS } from 'mobx';
+import { observableSetIn } from './common-utils';
 import { FieldType } from './enum';
 import { Field, FormModel } from './model';
-import { observableSetIn } from './common-utils';
-import { FieldValidateTrigger, FormEnvContextType, SubmitOptions } from './type';
+import {
+  FieldValidateTrigger,
+  FormEnvContextType,
+  SubmitOptions,
+} from './type';
 
 export const modelUtils = {
   clearError: action(function <T>(model: FormModel<T>) {
@@ -20,7 +24,7 @@ export const modelUtils = {
         continue;
       }
       const div = document.querySelector<HTMLDivElement>(
-        `*[data-xform-id="${field.config.htmlId}"]`
+        `*[data-xform-id="${field.config.htmlId}"]`,
       );
       if (!div) {
         continue;
@@ -42,7 +46,7 @@ export const modelUtils = {
         continue;
       }
       const div = document.querySelector<HTMLDivElement>(
-        `*[data-xform-id="${field.config.htmlId}"]`
+        `*[data-xform-id="${field.config.htmlId}"]`,
       );
       if (!div) {
         continue;
@@ -57,12 +61,15 @@ export const modelUtils = {
           { offset: 0.435, transform: 'translateX(2px) rotateY(3deg)' },
           { offset: 0.5, transform: 'translateX(0)' },
         ],
-        { duration: 750 }
+        { duration: 750 },
       );
     }
   },
 
-  validateAll: action(function <T>(model: FormModel<T>, trigger: FieldValidateTrigger = '*') {
+  validateAll: action(function <T>(
+    model: FormModel<T>,
+    trigger: FieldValidateTrigger = '*',
+  ) {
     let hasError = false;
     const errors: any = observable(model._valueShape === 'array' ? [] : {});
     const errorFields: Field[] = [];
@@ -81,8 +88,8 @@ export const modelUtils = {
               observableSetIn(errors, field.path, error);
               errorFields.push(field);
             }
-          })
-        )
+          }),
+        ),
       );
     });
 
@@ -94,8 +101,8 @@ export const modelUtils = {
               hasError = true;
               observableSetIn(errors, check.path, error);
             }
-          })
-        )
+          }),
+        ),
       );
     });
 
@@ -106,7 +113,10 @@ export const modelUtils = {
     }));
   }),
 
-  submit: action(async function <T>(model: FormModel<T>, options: SubmitOptions = {}) {
+  submit: action(async function <T>(
+    model: FormModel<T>,
+    options: SubmitOptions = {},
+  ) {
     const {
       onError,
       onSubmit,
@@ -116,7 +126,9 @@ export const modelUtils = {
       scrollToFirstError = true,
     } = options;
 
-    const { hasError, errors, errorFields } = await modelUtils.validateAll(model);
+    const { hasError, errors, errorFields } = await modelUtils.validateAll(
+      model,
+    );
 
     if (hasError) {
       if (scrollToFirstError) {
@@ -130,7 +142,11 @@ export const modelUtils = {
     } else if (typeof onSubmit === 'function') {
       runInAction(() => {
         const result: any = observable(
-          valueFilter === 'all' ? toJS(model.values) : model._valueShape === 'array' ? [] : {}
+          valueFilter === 'all'
+            ? toJS(model.values)
+            : model._valueShape === 'array'
+            ? []
+            : {},
         );
 
         _mergeValuesFromViewToTarget(result, model, { mergeDefaultValue });
@@ -142,16 +158,18 @@ export const modelUtils = {
 
   reset: action(function <T>(
     model: FormModel<T>,
-    { onReset }: Pick<FormEnvContextType, 'onReset'> = {}
+    { onReset }: Pick<FormEnvContextType, 'onReset'> = {},
   ) {
     model.values = {} as T;
     modelUtils.clearError(model);
     onReset?.(model);
   }),
 
-  acceptValuesFormView: action((model: FormModel, opts: { mergeDefaultValue?: boolean } = {}) => {
-    _mergeValuesFromViewToTarget(model.values, model, opts);
-  }),
+  acceptValuesFormView: action(
+    (model: FormModel, opts: { mergeDefaultValue?: boolean } = {}) => {
+      _mergeValuesFromViewToTarget(model.values, model, opts);
+    },
+  ),
 
   mergeValuesFromViewToView: _mergeValuesFromViewToTarget,
 };
@@ -160,7 +178,7 @@ export const modelUtils = {
 function _mergeValuesFromViewToTarget(
   target: any,
   model: FormModel,
-  { mergeDefaultValue = true }: { mergeDefaultValue?: boolean } = {}
+  { mergeDefaultValue = true }: { mergeDefaultValue?: boolean } = {},
 ) {
   model.iterateFields((field) => {
     if (!field.isMounted) {
@@ -195,7 +213,11 @@ function _mergeValuesFromViewToTarget(
         // 否则尝试将 FormItem 上的 defaultValue 合并到结果中
         if (mergeDefaultValue && defaultValueProp !== undefined) {
           field._tupleParts.map((part, index) => {
-            observableSetIn(target, [...model.path, part], defaultValueProp?.[index]);
+            observableSetIn(
+              target,
+              [...model.path, part],
+              defaultValueProp?.[index],
+            );
           });
         }
       }

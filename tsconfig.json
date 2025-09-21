@@ -1,16 +1,20 @@
 {
   "compilerOptions": {
-    "strict": true,
-    "declaration": true,
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "jsx": "react",
-    "baseUrl": "./",
-    "paths": {
-      "@@/*": [".dumi/tmp/*"],
-      "react-xform": ["src"],
-      "react-xform/*": ["src/*", "*"]
-    }
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx", // 确保这里设置为 "react-jsx" 或 "react" 取决于你的 React 版本
+    "noFallthroughCasesInSwitch": true
   },
-  "include": [".dumirc.ts", "src/**/*"]
+  "include": ["src"]
 }

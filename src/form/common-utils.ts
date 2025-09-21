@@ -1,10 +1,9 @@
-import { useState } from 'react';
 import * as mobx from 'mobx';
-import { Watchable } from './type';
-import { FormModel } from './model';
 import { toJS } from 'mobx';
-import { Field } from './model';
+import { useState } from 'react';
 import { AsyncValue } from './helpers/AsyncValue';
+import { Field, FormModel } from './model';
+import { Watchable } from './type';
 
 function isNumericKey(key: string) {
   return String(Number.parseInt(key)) === key;
@@ -27,7 +26,11 @@ export function composeValue<T>(first: T, second: T) {
 }
 
 /** lodash.get(...) for mobx observables */
-export function observableGetIn(obj: any, key: string | string[], defaultValue?: any) {
+export function observableGetIn(
+  obj: any,
+  key: string | string[],
+  defaultValue?: any,
+) {
   const path = Array.isArray(key) ? key : splitToPath(key);
   let target = obj;
 
@@ -44,7 +47,11 @@ export function observableGetIn(obj: any, key: string | string[], defaultValue?:
 }
 
 /** lodash.set(...) for mobx observables */
-export function observableSetIn(obj: unknown, key: string | string[], value: unknown) {
+export function observableSetIn(
+  obj: unknown,
+  key: string | string[],
+  value: unknown,
+) {
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
   const path = Array.isArray(key) ? key : splitToPath(key);
   const lastPartIndex = path.length - 1;
@@ -102,7 +109,7 @@ export const range = (n: number) => {
 
 export function pick<T extends object, K extends string>(
   obj: T,
-  keys: K[]
+  keys: K[],
 ): { [P in K]?: P extends keyof T ? T[P] : never } {
   const result: any = {};
   keys.forEach((key) => {
@@ -113,7 +120,10 @@ export function pick<T extends object, K extends string>(
   return result;
 }
 
-export function convertWatchableToExpression(watch: Watchable, model: FormModel<any>) {
+export function convertWatchableToExpression(
+  watch: Watchable,
+  model: FormModel<any>,
+) {
   if (typeof watch === 'string') {
     return () => toJS(model.getValue(watch));
   } else if (typeof watch === 'function') {
