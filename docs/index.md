@@ -25,8 +25,8 @@ nav:
       <div class="welcome-title">react-antd-xform</div>
       <p class="desc">基于 React + Ant Design 的表单解决方案</p>
       <div class="welcome-buttons">
-        <a href="/introduction" class="button primary">快速开始</a>
-        <a href="https://github.com/JHuaZhang/react-antd-xform" target="_blank" class="button outline">GitHub</a>
+        <a href="/guide" class="button primary">快速开始</a>
+        <a href="https://github.com/flyvv/flyvv.github.io" target="_blank" class="button outline">GitHub</a>
       </div>
     </div>
   </div>
@@ -181,3 +181,4 @@ nav:
     }
   }
 </style>
+
