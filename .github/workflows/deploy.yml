@@ -17,10 +17,7 @@ jobs:
           # cache: 'pnpm'
           
       - name: Install dependencies with pnpm
-        uses: pnpm/action-setup@v2.0.1
-        with:
-          version: 10 # 选择你需要的 pnpm 版本
-          run_install: true
+        run: npm install pnpm -g
         
       - name: Install dependencies
         run: pnpm install
