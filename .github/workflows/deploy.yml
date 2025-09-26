@@ -1,32 +1,30 @@
-name: Deploy to Production
- 
+name: Deploy Docs to GitHub Pages
+
 on:
   push:
-    branches:
-      - master
- 
+    branches: [master]  # 当推送到main分支时触发
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
- 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
- 
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
           node-version: 18
           cache: 'pnpm'
 
-    - name: Install dependencies
-      run: pnpm install
- 
-    - name: Build
-      run: npm run docs:build
+      - name: Install dependencies
+        run: pnpm install
 
-    - name: Deploy
-      uses: peaceiris/actions-gh-pages@v3
-      with:
+      - name: Build Documentation
+        run: pnpm run docs:build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs-dist
+          publish_branch: gh-pages
